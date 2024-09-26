@@ -1,0 +1,31 @@
+name: lead_your_way
+description: A new Flutter project.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.1.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+  fluttertoast: ^8.2.2
+  google_nav_bar: ^5.0.6
+  lottie: ^2.6.0
+  smooth_page_indicator: ^1.1.0
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logoCar.png"
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
