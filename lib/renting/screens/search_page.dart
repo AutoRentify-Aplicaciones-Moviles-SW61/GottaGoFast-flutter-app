@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/car.dart';
-
 import '../widgets/car_card.dart';
 
 class SearchPage extends StatefulWidget {
   final String selectedBrand;
+  final double selectedBudget;
+  final bool showAll;
 
-  const SearchPage({super.key, required this.selectedBrand});
+  const SearchPage({super.key, required this.selectedBrand, this.selectedBudget = 0, this.showAll = false});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -71,20 +72,50 @@ class _SearchPageState extends State<SearchPage> {
     ),
   ];
 
+  String searchQuery = '';
+
   @override
   Widget build(BuildContext context) {
-    List<Car> filteredCars = widget.selectedBrand.isEmpty
+    List<Car> filteredCars = widget.showAll
         ? hardcodedCars
-        : hardcodedCars.where((car) => car.brand == widget.selectedBrand).toList();
+        : hardcodedCars.where((car) {
+      return (widget.selectedBrand.isEmpty || car.brand == widget.selectedBrand) &&
+          (widget.selectedBudget == 0 || car.carPrice <= widget.selectedBudget);
+    }).toList();
 
-    return SafeArea(
-      child: Scaffold(
-        body: ListView(
-          children: [
-            for (Car car in filteredCars)
-              CarCard(car: car)
-          ],
-        ),
+    if (searchQuery.isNotEmpty) {
+      filteredCars = filteredCars.where((car) => car.carName.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Search Results'),
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
+              decoration: const InputDecoration(
+                labelText: 'Search',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                for (Car car in filteredCars)
+                  CarCard(car: car)
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

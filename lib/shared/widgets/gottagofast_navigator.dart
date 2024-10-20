@@ -16,27 +16,28 @@ class LywNavigator extends StatefulWidget {
 class _LywNavigatorState extends State<LywNavigator> {
   late Widget currentView;
   String selectedBrand = '';
+  double selectedBudget = 0;
 
   @override
   void initState() {
     super.initState();
-    currentView = HomePage(onBrandSelected: _onBrandSelected);
+    currentView = HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
   }
 
   void _onTabTapped(AppRoute route) {
     setState(() {
       switch(route) {
         case AppRoute.home:
-          currentView = HomePage(onBrandSelected: _onBrandSelected);
+          currentView = HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
           break;
         case AppRoute.profile:
           currentView = const ProfilePage();
           break;
         case AppRoute.search:
-          currentView = SearchPage(selectedBrand: selectedBrand);
+          currentView = SearchPage(selectedBrand: selectedBrand, selectedBudget: selectedBudget, showAll: true);
           break;
         case AppRoute.favorite:
-          currentView = SearchPage(selectedBrand: selectedBrand);
+          currentView = SearchPage(selectedBrand: selectedBrand, selectedBudget: selectedBudget);
           break;
       }
     });
@@ -45,7 +46,14 @@ class _LywNavigatorState extends State<LywNavigator> {
   void _onBrandSelected(String brand) {
     setState(() {
       selectedBrand = brand;
-      currentView = SearchPage(selectedBrand: selectedBrand);
+      currentView = SearchPage(selectedBrand: selectedBrand, selectedBudget: selectedBudget);
+    });
+  }
+
+  void _onBudgetSelected(double budget) {
+    setState(() {
+      selectedBudget = budget;
+      currentView = SearchPage(selectedBrand: '', selectedBudget: selectedBudget, showAll: false);
     });
   }
 
