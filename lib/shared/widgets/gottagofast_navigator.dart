@@ -77,11 +77,28 @@ class _LywNavigatorState extends State<LywNavigator> {
     });
   }
 
+  void _onBackButtonPressed() {
+    setState(() {
+      selectedBrand = '';
+      selectedBudget = 0;
+      currentView = HomePage(
+        onBrandSelected: _onBrandSelected,
+        onBudgetSelected: _onBudgetSelected,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: currentView),
-      bottomNavigationBar: LywBottomNavigation(onNavigationChange: _onTabTapped),
+    return WillPopScope(
+      onWillPop: () async {
+        _onBackButtonPressed();
+        return false;
+      },
+      child: Scaffold(
+        body: Center(child: currentView),
+        bottomNavigationBar: LywBottomNavigation(onNavigationChange: _onTabTapped),
+      ),
     );
   }
 }

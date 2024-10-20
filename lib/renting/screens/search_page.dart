@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/services/carsService.dart';
+import '../../shared/services/carsService.dart';
 import '../widgets/car_card.dart';
 import 'rent_page.dart';
 
@@ -39,45 +39,51 @@ class _SearchPageState extends State<SearchPage> {
       filteredCars = filteredCars.where((car) => car.carName.toLowerCase().contains(searchQuery.toLowerCase())).toList();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Results'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                });
-              },
-              decoration: const InputDecoration(
-                labelText: 'Search',
-                border: OutlineInputBorder(),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Search Results'),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Search',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                for (Car car in filteredCars)
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RentPage(car: car),
-                        ),
-                      );
-                    },
-                    child: CarCard(car: car),
-                  )
-              ],
+            Expanded(
+              child: ListView(
+                children: [
+                  for (Car car in filteredCars)
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RentPage(car: car),
+                          ),
+                        );
+                      },
+                      child: CarCard(car: car),
+                    )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

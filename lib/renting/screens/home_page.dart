@@ -35,11 +35,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _onBackButtonPressed() {
+    widget.onBrandSelected('');
+    widget.onBudgetSelected(0);
     setState(() {
       _showBackButton = false;
       selectedBrand = '';
       selectedBudget = 0;
     });
+    Navigator.of(context).pop(); // Asegúrate de que esto navegue correctamente
   }
 
   @override
