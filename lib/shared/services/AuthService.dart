@@ -1,3 +1,4 @@
+import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/user.dart';
 
 class MockAuthService {
@@ -65,4 +66,22 @@ class MockAuthService {
       throw Exception('User not found');
     }
   }
+
+  Future<void> addCarToCurrentUser(Car car) async {
+    if (_currentUser != null) {
+      if (_currentUser!.cars == null) {
+        _currentUser!.cars = [];
+      }
+      _currentUser!.cars!.add(car);
+      await updateUser(_currentUser!);
+    } else {
+      throw Exception('No user logged in');
+    }
+  }
+
+  List<Car> getReservedCars() {
+    return _currentUser?.cars ?? [];
+  }
+
+
 }

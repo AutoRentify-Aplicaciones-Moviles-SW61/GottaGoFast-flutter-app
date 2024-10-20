@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/renting/screens/comments_page.dart';
+import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
+import 'package:lead_your_way/shared/services/carsService.dart';
 
 class RentPage extends StatelessWidget {
   const RentPage({super.key, required this.car});
@@ -8,6 +10,8 @@ class RentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = MockAuthService();
+    final carService = CarService();
     final image = Image.network(
       car.imageData,
       fit: BoxFit.fitWidth,
@@ -178,8 +182,18 @@ class RentPage extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent, // Button color
                       ),
-                      onPressed: () {
-                        // Add rent action
+                      onPressed: () async {
+                        try {
+                          await authService.addCarToCurrentUser(car);
+                          carService.removeCar(car);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Car added to your rentals!')),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(e.toString())),
+                          );
+                        }
                       },
                       child: const Text(
                         'Rent Now',

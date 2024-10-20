@@ -1,3 +1,5 @@
+import 'package:lead_your_way/shared/models/car.dart';
+
 class User {
   String id;
   String email;
@@ -5,6 +7,7 @@ class User {
   String? name;
   String? bio;
   String? profilePictureUrl;
+  List<Car>? cars;
 
   User({
     required this.id,
@@ -13,6 +16,7 @@ class User {
     this.name,
     this.bio,
     this.profilePictureUrl,
+    this.cars,
   });
 
   Map<String, dynamic> toJson() {
@@ -23,6 +27,7 @@ class User {
       'name': name,
       'bio': bio,
       'profilePictureUrl': profilePictureUrl,
+      'cars': cars?.map((car) => car.toJson()).toList(),
     };
   }
 }

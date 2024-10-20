@@ -68,6 +68,6 @@ class CarService {
   }
 
   void removeCar(Car car) {
-    _cars.remove(car);
+    _cars.removeWhere((c) => c.id == car.id);
   }
 }
