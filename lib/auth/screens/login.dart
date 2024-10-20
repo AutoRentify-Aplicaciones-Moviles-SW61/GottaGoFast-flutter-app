@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/auth/screens/signup.dart';
-import 'package:lead_your_way/renting/screens/home_page.dart';
+import 'package:lead_your_way/shared/services/AuthService.dart';
 import 'package:lead_your_way/shared/services/Smooth_Navigation.dart';
 import 'package:lead_your_way/shared/services/notifier.dart';
 import 'package:lead_your_way/shared/widgets/gottagofast_navigator.dart';
@@ -16,6 +16,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final MockAuthService _authService = MockAuthService();
 
   @override
   void dispose() {
@@ -38,19 +39,9 @@ class _LoginState extends State<Login> {
               height: 125,
             ),
             const SizedBox(height: 32),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ),
-                );
-              },
-              child: const Text(
-                "Welcome Back!",
-                style: TextStyle(fontSize: 30, color: Color(0xff000000)),
-              ),
+            const Text(
+              "Welcome Back!",
+              style: TextStyle(fontSize: 30, color: Color(0xff000000)),
             ),
             const SizedBox(height: 32),
             RoundedInputField(
@@ -69,11 +60,11 @@ class _LoginState extends State<Login> {
             ),
             const SizedBox(height: 16),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 final email = emailController.text;
                 final password = passwordController.text;
                 final bool emailValid = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(email);
 
                 if (email.isEmpty || password.isEmpty) {
@@ -86,15 +77,20 @@ class _LoginState extends State<Login> {
                   return;
                 }
 
-                smoothNavigation(
-                  context,
-                  const Login(),
-                  const LywNavigator(),
-                  0.0,
-                  -1.0,
-                  0.0,
-                  1.0,
-                );
+                final String result = await _authService.login(email, password);
+                if (result == 'Success') {
+                  smoothNavigation(
+                    context,
+                    const Login(),
+                    const LywNavigator(),
+                    0.0,
+                    -1.0,
+                    0.0,
+                    1.0,
+                  );
+                } else {
+                  sendAlertMessage(result);
+                }
               },
               style: FilledButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 74, 135, 250),
@@ -114,7 +110,6 @@ class _LoginState extends State<Login> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Row SignUpLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

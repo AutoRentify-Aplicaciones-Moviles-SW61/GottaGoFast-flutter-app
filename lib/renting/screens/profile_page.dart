@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lead_your_way/shared/models/user.dart';
+import 'package:lead_your_way/shared/services/AuthService.dart';
 import 'package:lead_your_way/renting/widgets/profile_picture.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -9,15 +11,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final MockAuthService _authService = MockAuthService();
+  User? _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = _authService.getCurrentUser();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
+    return Scaffold(
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           const Padding(padding: EdgeInsets.all(15.0)),
           ProfilePicture(
-            imagePath: "https://m.media-amazon.com/images/M/MV5BNTE1ODU3NTM1N15BMl5BanBnXkFtZTcwNTk0NDM4Nw@@._V1_.jpg",
+            imagePath: _currentUser?.profilePictureUrl ?? '',
             onClick: () async {},
           ),
           const SizedBox(height: 24),
@@ -28,40 +39,39 @@ class _ProfilePageState extends State<ProfilePage> {
           buildBicycles()
         ],
       ),
-      //bottomNavigationBar: const LywBottomNavigation(),
     );
   }
 
-  Widget buildName() => const Column(
+  Widget buildName() => Column(
     children: [
       Text(
-        "Sean John Combs",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        _currentUser?.name ?? '',
+        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
       ),
-      SizedBox(height: 4),
+      const SizedBox(height: 4),
       Text(
-        "partyallnight@example.com",
-        style: TextStyle(color: Colors.grey),
+        _currentUser?.email ?? '',
+        style: const TextStyle(color: Colors.grey),
       )
     ],
   );
 
   Widget buildAbout() => Container(
     padding: const EdgeInsets.symmetric(horizontal: 48),
-    child: const Column(
+    child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           "About",
-        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
-          "This is my description..."
-        )
+          _currentUser?.bio ?? '',
+        ),
       ],
     ),
-  ); 
+  );
 
   Widget buildBicycles() => Container(
     padding: const EdgeInsets.symmetric(horizontal: 48),
@@ -71,13 +81,13 @@ class _ProfilePageState extends State<ProfilePage> {
         Text(
           "Reserved cars",
           style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        ),
         SizedBox(height: 24),
         Text(
           "Favorite Reserved Cars",
           style: TextStyle(fontWeight: FontWeight.bold),
         )
       ],
-    ),  
+    ),
   );
 }

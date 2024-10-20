@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/renting/screens/comments_page.dart';
 
 class RentPage extends StatelessWidget {
   const RentPage({super.key, required this.car});
@@ -183,7 +184,33 @@ class RentPage extends StatelessWidget {
                       child: const Text(
                         'Rent Now',
                         style: TextStyle(fontSize: 18),
-
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  const Spacer(),
+                  SizedBox(
+                    height: 50,
+                    width: 200,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent, // Button color
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommentsPage(carId: car.id),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        'Comments',
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
                   ),

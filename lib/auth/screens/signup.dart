@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/auth/screens/login.dart';
+import 'package:lead_your_way/shared/services/AuthService.dart';
 import 'package:lead_your_way/shared/services/Smooth_Navigation.dart';
 import 'package:lead_your_way/shared/services/notifier.dart';
 import 'package:lead_your_way/shared/widgets/gottagofast.dart';
@@ -14,8 +15,8 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController passwordConfirmationController =
-      TextEditingController();
+  final TextEditingController passwordConfirmationController = TextEditingController();
+  final MockAuthService _authService = MockAuthService();
 
   @override
   void dispose() {
@@ -67,18 +68,15 @@ class _SignUpState extends State<SignUp> {
             ),
             const SizedBox(height: 16),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
                 final email = emailController.text;
                 final password = passwordController.text;
-                final passwordConfirmation =
-                    passwordConfirmationController.text;
+                final passwordConfirmation = passwordConfirmationController.text;
                 final bool emailValid = RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                     .hasMatch(email);
 
-                if (email.isEmpty ||
-                    password.isEmpty ||
-                    passwordConfirmation.isEmpty) {
+                if (email.isEmpty || password.isEmpty || passwordConfirmation.isEmpty) {
                   sendAlertMessage("Please fill all fields");
                   return;
                 }
@@ -91,6 +89,21 @@ class _SignUpState extends State<SignUp> {
                 if (password != passwordConfirmation) {
                   sendAlertMessage("Your password does not match");
                   return;
+                }
+
+                final String result = await _authService.signup(email, password);
+                if (result == 'User registered successfully') {
+                  smoothNavigation(
+                    context,
+                    const SignUp(),
+                    const Login(),
+                    1.0,
+                    0.0,
+                    -1.0,
+                    0.0,
+                  );
+                } else {
+                  sendAlertMessage(result);
                 }
               },
               style: FilledButton.styleFrom(
@@ -111,7 +124,6 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   Row LoginLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
