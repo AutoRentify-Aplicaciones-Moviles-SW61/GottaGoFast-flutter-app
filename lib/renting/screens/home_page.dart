@@ -99,12 +99,22 @@ class _HomePageState extends State<HomePage> {
               textAlign: TextAlign.left,
             ),
             const SizedBox(height: 10),
+            const Text(
+              "Select one between our most popular brands available",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(height: 10),
             Center(
               child: Wrap(
                 spacing: 10,
                 runSpacing: 10,
                 children: [
                   ChoiceChip(
+                    avatar: Image.network('https://sommelier.com.pe/wp-content/uploads/Toyota-logo.png'),
                     label: const Text("Toyota"),
                     selected: selectedBrand == "Toyota",
                     backgroundColor: Colors.blueAccent,
@@ -114,6 +124,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ChoiceChip(
+                    avatar: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/768px-BMW.svg.png'),
                     label: const Text("BMW"),
                     selected: selectedBrand == "BMW",
                     backgroundColor: Colors.blueAccent,
@@ -123,6 +134,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ChoiceChip(
+                    avatar: Image.network('https://1000marcas.net/wp-content/uploads/2020/01/Jeep-Logo-1970-1.png'),
                     label: const Text("Jeep"),
                     selected: selectedBrand == "Jeep",
                     backgroundColor: Colors.blueAccent,
@@ -132,6 +144,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ChoiceChip(
+                    avatar: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Ford_logo_flat.svg/2560px-Ford_logo_flat.svg.png'),
                     label: const Text("Ford"),
                     selected: selectedBrand == "Ford",
                     backgroundColor: Colors.blueAccent,
@@ -150,6 +163,15 @@ class _HomePageState extends State<HomePage> {
                 color: Colors.indigo,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.left,
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              "Select a maximum of price to filter",
+              style: TextStyle(
+                color: Colors.grey,
+                fontSize: 16,
               ),
               textAlign: TextAlign.left,
             ),
@@ -212,7 +234,9 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 children: [
                   for (Car car in filteredCars)
-                    CarCard(car: car)
+                    CarCard(car: car),
+                  const SizedBox(height: 20),
+                  Image.network('https://vehicle-images.dealerinspire.com/stock-images/thumbnails/large/chrome/6f177bf506399bda7f9826048fd58b5e.png'),
                 ],
               ),
             ),
