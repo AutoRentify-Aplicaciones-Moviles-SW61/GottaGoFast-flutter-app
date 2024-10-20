@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/onboarding/widgets/car_card.dart';
 import 'package:lead_your_way/shared/models/car.dart';
 
+import '../widgets/car_card.dart';
+
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final String selectedBrand;
+
+  const SearchPage({super.key, required this.selectedBrand});
 
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
-  List<Car> hardcodedBicycles = [
+  List<Car> hardcodedCars = [
     Car(
       id: 1,
       passengers: 5,
@@ -59,24 +62,27 @@ class _SearchPageState extends State<SearchPage> {
       id: 5,
       passengers: 5,
       luggageCapacity: 4,
-      carName: "Fusion ",
+      carName: "Fusion",
       brand: "Ford",
       carPrice: 109.99,
       carDescription: "A high-performance sedan, perfect for long-distance travel.",
       carModel: "2023 Model",
       imageData: "https://img.remediosdigitales.com/5c88ed/mondeo1/1366_2000.jpeg",
     ),
-
   ];
 
   @override
   Widget build(BuildContext context) {
+    List<Car> filteredCars = widget.selectedBrand.isEmpty
+        ? hardcodedCars
+        : hardcodedCars.where((car) => car.brand == widget.selectedBrand).toList();
+
     return SafeArea(
       child: Scaffold(
         body: ListView(
           children: [
-            for (Car car in hardcodedBicycles)
-              BicycleCard(car: car)
+            for (Car car in filteredCars)
+              CarCard(car: car)
           ],
         ),
       ),

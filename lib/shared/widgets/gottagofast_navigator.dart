@@ -14,16 +14,38 @@ class LywNavigator extends StatefulWidget {
 }
 
 class _LywNavigatorState extends State<LywNavigator> {
-  Widget currentView = const HomePage();
+  late Widget currentView;
+  String selectedBrand = '';
+
+  @override
+  void initState() {
+    super.initState();
+    currentView = HomePage(onBrandSelected: _onBrandSelected);
+  }
 
   void _onTabTapped(AppRoute route) {
     setState(() {
       switch(route) {
-        case AppRoute.home: currentView = const HomePage();
-        case AppRoute.profile: currentView = const ProfilePage();
-        case AppRoute.search: currentView = const SearchPage();
-        case AppRoute.favorite: currentView = const SearchPage();
+        case AppRoute.home:
+          currentView = HomePage(onBrandSelected: _onBrandSelected);
+          break;
+        case AppRoute.profile:
+          currentView = const ProfilePage();
+          break;
+        case AppRoute.search:
+          currentView = SearchPage(selectedBrand: selectedBrand);
+          break;
+        case AppRoute.favorite:
+          currentView = SearchPage(selectedBrand: selectedBrand);
+          break;
       }
+    });
+  }
+
+  void _onBrandSelected(String brand) {
+    setState(() {
+      selectedBrand = brand;
+      currentView = SearchPage(selectedBrand: selectedBrand);
     });
   }
 
