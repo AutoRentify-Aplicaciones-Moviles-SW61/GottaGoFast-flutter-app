@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/user.dart';
-import 'package:lead_your_way/shared/services/AuthService.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
 import 'package:lead_your_way/renting/widgets/profile_picture.dart';
 
 class ProfilePage extends StatefulWidget {

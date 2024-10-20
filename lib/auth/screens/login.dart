@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/auth/screens/signup.dart';
-import 'package:lead_your_way/shared/services/AuthService.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
 import 'package:lead_your_way/shared/services/Smooth_Navigation.dart';
 import 'package:lead_your_way/shared/services/notifier.dart';
 import 'package:lead_your_way/shared/widgets/gottagofast_navigator.dart';

@@ -5,6 +5,7 @@ import 'package:lead_your_way/renting/screens/profile_page.dart';
 import 'package:lead_your_way/renting/screens/search_page.dart';
 import 'package:lead_your_way/routes/app_route.dart';
 import 'package:lead_your_way/shared/widgets/gottagofast_bottom_navigation.dart';
+import 'package:lead_your_way/shared/services/carsService.dart';
 
 class LywNavigator extends StatefulWidget {
   const LywNavigator({super.key});
@@ -17,6 +18,7 @@ class _LywNavigatorState extends State<LywNavigator> {
   late Widget currentView;
   String selectedBrand = '';
   double selectedBudget = 0;
+  final CarService carService = CarService();
 
   @override
   void initState() {
@@ -34,10 +36,19 @@ class _LywNavigatorState extends State<LywNavigator> {
           currentView = const ProfilePage();
           break;
         case AppRoute.search:
-          currentView = SearchPage(selectedBrand: selectedBrand, selectedBudget: selectedBudget, showAll: true);
+          currentView = SearchPage(
+            selectedBrand: selectedBrand,
+            selectedBudget: selectedBudget,
+            showAll: true,
+            carService: carService,
+          );
           break;
         case AppRoute.favorite:
-          currentView = SearchPage(selectedBrand: selectedBrand, selectedBudget: selectedBudget);
+          currentView = SearchPage(
+            selectedBrand: selectedBrand,
+            selectedBudget: selectedBudget,
+            carService: carService,
+          );
           break;
       }
     });
@@ -46,14 +57,23 @@ class _LywNavigatorState extends State<LywNavigator> {
   void _onBrandSelected(String brand) {
     setState(() {
       selectedBrand = brand;
-      currentView = SearchPage(selectedBrand: selectedBrand, selectedBudget: selectedBudget);
+      currentView = SearchPage(
+        selectedBrand: selectedBrand,
+        selectedBudget: selectedBudget,
+        carService: carService,
+      );
     });
   }
 
   void _onBudgetSelected(double budget) {
     setState(() {
       selectedBudget = budget;
-      currentView = SearchPage(selectedBrand: '', selectedBudget: selectedBudget, showAll: false);
+      currentView = SearchPage(
+        selectedBrand: '',
+        selectedBudget: selectedBudget,
+        showAll: false,
+        carService: carService,
+      );
     });
   }
 
