@@ -18,6 +18,13 @@ class CarCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(car.brand,
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 Text(
                   car.carName,
                   style: TextStyle(
