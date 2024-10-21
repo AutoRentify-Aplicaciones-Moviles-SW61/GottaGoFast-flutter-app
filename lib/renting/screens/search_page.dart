@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/renting/screens/rent_page.dart';
 import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/services/carsService.dart';
+import '../../shared/services/carsService.dart';
 import '../widgets/car_card.dart';
 
 
@@ -40,23 +40,29 @@ class _SearchPageState extends State<SearchPage> {
       filteredCars = filteredCars.where((car) => car.carName.toLowerCase().contains(searchQuery.toLowerCase())).toList();
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Results'),
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery = value;
-                });
-              },
-              decoration: const InputDecoration(
-                labelText: 'Search',
-                border: OutlineInputBorder(),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context).pop();
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Search Results'),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
+                decoration: const InputDecoration(
+                  labelText: 'Search',
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
           ),
@@ -77,8 +83,8 @@ class _SearchPageState extends State<SearchPage> {
                   )
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
