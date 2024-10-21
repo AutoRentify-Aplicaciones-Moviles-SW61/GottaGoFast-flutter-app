@@ -32,7 +32,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _profilePictureUrlController.text = _currentUser!.profilePictureUrl ?? '';
     }
   }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setState(() {
+      _currentUser = _authService.getCurrentUser(); // Update current user when dependencies change
 
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -153,6 +153,96 @@ class _HomePageState extends State<HomePage> {
                       _onBrandSelected("Ford");
                     },
                   ),
+                  ChoiceChip(
+                    avatar: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Lincoln_logo.svg/640px-Lincoln_logo.svg.png'),
+                    label: const Text("Lincoln"),
+                    selected: selectedBrand == "Lincoln",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Lincoln");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://www.freepnglogos.com/uploads/porsche-logo-17.png'),
+                    label: const Text("Porsche"),
+                    selected: selectedBrand == "Porsche",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Porsche");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.png'),
+                    label: const Text("Tesla"),
+                    selected: selectedBrand == "Tesla",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Tesla");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://logos-world.net/wp-content/uploads/2021/03/Chevrolet-Logo.png'),
+                    label: const Text("Chevrolet"),
+                    selected: selectedBrand == "Chevrolet",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Chevrolet");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Subaru_logo_%28transparent%29.svg/2560px-Subaru_logo_%28transparent%29.svg.png'),
+                    label: const Text("Subaru"),
+                    selected: selectedBrand == "Subaru",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Subaru");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Volkswagen_logo_2019.svg/1200px-Volkswagen_logo_2019.svg.png'),
+                    label: const Text("Volkswagen"),
+                    selected: selectedBrand == "Volkswagen",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Volkswagen");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://1000marcas.net/wp-content/uploads/2019/12/Honda-Logo-768x432.png'),
+                    label: const Text("Honda"),
+                    selected: selectedBrand == "Honda",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Honda");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://1000marcas.net/wp-content/uploads/2019/12/Audi-logo-800x450.png'),
+                    label: const Text("Audi"),
+                    selected: selectedBrand == "Audi",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Audi");
+                    },
+                  ),
+                  ChoiceChip(
+                    avatar: Image.network('https://1000marcas.net/wp-content/uploads/2020/01/Mazda-Logo-768x432.png'),
+                    label: const Text("Mazda"),
+                    selected: selectedBrand == "Mazda",
+                    backgroundColor: Colors.blueAccent,
+                    labelStyle: const TextStyle(color: Colors.white),
+                    onSelected: (bool selected) {
+                      _onBrandSelected("Mazda");
+                    },
+                  ),
                 ],
               ),
             ),

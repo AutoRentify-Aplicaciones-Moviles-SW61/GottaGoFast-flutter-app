@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/renting/screens/home_page.dart';
 import 'package:lead_your_way/renting/screens/profile_page.dart';
-import 'package:lead_your_way/renting/screens/reservtionsHistory_page.dart';
+import 'package:lead_your_way/renting/screens/reservationsHistory_page.dart';
 import 'package:lead_your_way/renting/screens/search_page.dart';
 import 'package:lead_your_way/routes/app_route.dart';
 import 'package:lead_your_way/shared/widgets/gottagofast_bottom_navigation.dart';
