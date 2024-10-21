@@ -12,6 +12,7 @@ class RentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authService = MockAuthService();
+    final currentUser = authService.getCurrentUser();
     final carService = CarService();
     final image = Image.network(
       car.imageData,
@@ -76,7 +77,7 @@ class RentPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ReservationFormPage(car: car),
+                            builder: (context) => ReservationFormPage(car: car, currentUser: currentUser!),
                           ),
                         );
                       },

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lead_your_way/renting/screens/rent_page.dart';
 import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/services/carsService.dart';
 import '../widgets/car_card.dart';
-import 'rent_page.dart';
+
 
 class SearchPage extends StatefulWidget {
   final String selectedBrand;
@@ -68,7 +69,7 @@ class _SearchPageState extends State<SearchPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => RentPage(car: car),
+                          builder: (context) => RentPage (car: car),
                         ),
                       );
                     },

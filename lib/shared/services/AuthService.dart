@@ -1,4 +1,6 @@
 import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/shared/models/reservation.dart';
+import 'package:lead_your_way/shared/models/reservation.dart';
 import 'package:lead_your_way/shared/models/user.dart';
 
 class MockAuthService {
@@ -6,6 +8,7 @@ class MockAuthService {
   final List<User> _users = [];
   int _nextId = 2;
   User? _currentUser;
+  static int _nextReservationId = 2;
 
   factory MockAuthService() {
     return _instance;
@@ -19,6 +22,17 @@ class MockAuthService {
       name: 'Diego Cano',
       bio: 'Hello, I am Cano and I love partying all night.',
       profilePictureUrl: 'https://m.media-amazon.com/images/M/MV5BNTE1ODU3NTM1N15BMl5BanBnXkFtZTcwNTk0NDM4Nw@@._V1_.jpg',
+      reservations: [
+        Reservation(
+          id: '1',
+          vehicleId: 1,
+          pickupLocation: 'Location A',
+          dropoffLocation: 'Location B',
+          pickupDate: DateTime.now(),
+          dropoffDate: DateTime.now().add(Duration(days: 3)),
+          rentalRate: 100.0,
+        ),
+      ],
     ));
   }
 
@@ -66,22 +80,21 @@ class MockAuthService {
       throw Exception('User not found');
     }
   }
-
-  Future<void> addCarToCurrentUser(Car car) async {
-    if (_currentUser != null) {
-      if (_currentUser!.cars == null) {
-        _currentUser!.cars = [];
-      }
-      _currentUser!.cars!.add(car);
-      await updateUser(_currentUser!);
-    } else {
-      throw Exception('No user logged in');
+  Future<void> addReservationToUser(User user, Reservation reservation) async {
+    if (user.reservations == null) {
+      user.reservations = [];
     }
+    reservation.id = _nextReservationId.toString(); // Use the static variable
+    _nextReservationId += 2; // Increment the static variable by 2
+    user.reservations!.add(reservation);
+    await updateUser(user);
   }
 
-  List<Car> getReservedCars() {
-    return _currentUser?.cars ?? [];
+
+  List<Reservation> getUserReservations() {
+    return _currentUser?.reservations ?? [];
   }
+
 
 
 }

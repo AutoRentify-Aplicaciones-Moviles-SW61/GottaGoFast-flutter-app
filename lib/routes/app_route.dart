@@ -2,6 +2,6 @@
 enum AppRoute {
   home,
   profile,
-  favorite,
+  reservations,
   search,
 }

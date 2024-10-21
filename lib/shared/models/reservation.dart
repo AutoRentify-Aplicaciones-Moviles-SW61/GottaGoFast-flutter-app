@@ -1,6 +1,6 @@
 class Reservation {
-  final String userId;
-  final String vehicleId;
+   String id;
+  final int vehicleId;
   final String pickupLocation;
   final String dropoffLocation;
   final DateTime pickupDate;
@@ -11,7 +11,7 @@ class Reservation {
   late final double totalPrice;
 
   Reservation({
-    required this.userId,
+    required this.id,
     required this.vehicleId,
     required this.pickupLocation,
     required this.dropoffLocation,
@@ -28,5 +28,20 @@ class Reservation {
     surcharge = rentalCost * 0.05;
     salesTax = rentalCost * 0.18;
     return rentalCost + surcharge + salesTax;
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'vehicleId': vehicleId,
+      'pickupLocation': pickupLocation,
+      'dropoffLocation': dropoffLocation,
+      'pickupDate': pickupDate.toIso8601String(),
+      'dropoffDate': dropoffDate.toIso8601String(),
+      'rentalRate': rentalRate,
+      'surcharge': surcharge,
+      'salesTax': salesTax,
+      'totalPrice': totalPrice,
+    };
   }
 }

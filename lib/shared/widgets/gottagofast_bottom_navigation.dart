@@ -28,7 +28,7 @@ class LywBottomNavigation extends StatelessWidget {
             switch(index) {
               case 0: destination = AppRoute.home;
               case 1: destination = AppRoute.search;
-              case 2: destination = AppRoute.favorite;
+              case 2: destination = AppRoute.reservations;
               case 3: destination = AppRoute.profile;
             }
 
@@ -45,7 +45,7 @@ class LywBottomNavigation extends StatelessWidget {
             ),
             GButton(
               icon: Icons.favorite,
-              text: "Favorite"
+              text: "Reservations"
             ),
             GButton(
               icon: Icons.person,

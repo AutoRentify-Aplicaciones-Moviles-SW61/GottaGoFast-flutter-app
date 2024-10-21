@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/renting/screens/home_page.dart';
 import 'package:lead_your_way/renting/screens/profile_page.dart';
+import 'package:lead_your_way/renting/screens/reservtionsHistory_page.dart';
 import 'package:lead_your_way/renting/screens/search_page.dart';
 import 'package:lead_your_way/routes/app_route.dart';
 import 'package:lead_your_way/shared/widgets/gottagofast_bottom_navigation.dart';
@@ -43,12 +44,8 @@ class _LywNavigatorState extends State<LywNavigator> {
             carService: carService,
           );
           break;
-        case AppRoute.favorite:
-          currentView = SearchPage(
-            selectedBrand: selectedBrand,
-            selectedBudget: selectedBudget,
-            carService: carService,
-          );
+        case AppRoute.reservations:
+          currentView =  const ReservationHistoryPage();
           break;
       }
     });

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/reservation.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/carsService.dart';
-import 'package:lead_your_way/shared/services/rentalService.dart';
+import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/shared/models/user.dart';
+import 'package:lead_your_way/shared/services/AuthService.dart';
 
 class ReservationFormPage extends StatefulWidget {
-  const ReservationFormPage({super.key, required this.car});
   final Car car;
+  final User currentUser;
+
+  const ReservationFormPage({Key? key, required this.car, required this.currentUser}) : super(key: key);
 
   @override
   _ReservationFormPageState createState() => _ReservationFormPageState();
@@ -17,41 +18,43 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
   final _formKey = GlobalKey<FormState>();
   final _pickupLocationController = TextEditingController();
   final _dropoffLocationController = TextEditingController();
-  final _pickupDateController = TextEditingController();
-  final _dropoffDateController = TextEditingController();
+  DateTime? _pickupDate;
+  DateTime? _dropoffDate;
+  final _authService = MockAuthService();
 
-  @override
-  void dispose() {
-    _pickupLocationController.dispose();
-    _dropoffLocationController.dispose();
-    _pickupDateController.dispose();
-    _dropoffDateController.dispose();
-    super.dispose();
+  Future<void> _selectDate(BuildContext context, bool isPickup) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        if (isPickup) {
+          _pickupDate = picked;
+        } else {
+          _dropoffDate = picked;
+        }
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final authService = MockAuthService();
-    final reservationService = ReservationService();
-    final carService = CarService();
-    final currentUser = authService.getCurrentUser();
-    final car = widget.car;
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Enter Reservation Details'),
-        backgroundColor: Colors.blueAccent,
+        title: Text('Reserve ${widget.car.carName}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
             children: [
-              _buildTextField(
+              TextFormField(
                 controller: _pickupLocationController,
-                label: 'Pickup Location',
-                icon: Icons.location_on,
+                decoration: const InputDecoration(labelText: 'Pickup Location'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a pickup location';
@@ -59,10 +62,9 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                   return null;
                 },
               ),
-              _buildTextField(
+              TextFormField(
                 controller: _dropoffLocationController,
-                label: 'Dropoff Location',
-                icon: Icons.location_off,
+                decoration: const InputDecoration(labelText: 'Dropoff Location'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter a dropoff location';
@@ -70,131 +72,65 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                   return null;
                 },
               ),
-              _buildDateField(
-                controller: _pickupDateController,
-                label: 'Pickup Date',
-                icon: Icons.date_range,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a pickup date';
-                  }
-                  try {
-                    DateTime.parse(value);
-                  } catch (e) {
-                    return 'Please enter a valid date (YYYY-MM-DD)';
-                  }
-                  return null;
-                },
+              const SizedBox(height: 10),
+              ListTile(
+                title: Text(
+                  _pickupDate == null
+                      ? 'Select Pickup Date'
+                      : 'Pickup Date: ${_pickupDate!.toLocal()}'.split(' ')[0],
+                ),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context, true),
               ),
-              _buildDateField(
-                controller: _dropoffDateController,
-                label: 'Dropoff Date',
-                icon: Icons.date_range,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a dropoff date';
-                  }
-                  try {
-                    DateTime.parse(value);
-                  } catch (e) {
-                    return 'Please enter a valid date (YYYY-MM-DD)';
-                  }
-                  return null;
-                },
+              ListTile(
+                title: Text(
+                  _dropoffDate == null
+                      ? 'Select Dropoff Date'
+                      : 'Dropoff Date: ${_dropoffDate!.toLocal()}'.split(' ')[0],
+                ),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context, false),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate() &&
+                      _pickupDate != null &&
+                      _dropoffDate != null &&
+                      _pickupDate!.isBefore(_dropoffDate!)) {
+                    final reservation = Reservation(
+                      id: '',
+                      vehicleId: widget.car.id,
+                      pickupLocation: _pickupLocationController.text,
+                      dropoffLocation: _dropoffLocationController.text,
+                      pickupDate: _pickupDate!,
+                      dropoffDate: _dropoffDate!,
+                      rentalRate: widget.car.carPrice,
+                    );
+
                     try {
-                      final reservation = Reservation(
-                        userId: currentUser!.id,
-                        vehicleId: car.id.toString(),
-                        pickupLocation: _pickupLocationController.text,
-                        dropoffLocation: _dropoffLocationController.text,
-                        pickupDate: DateTime.parse(_pickupDateController.text),
-                        dropoffDate: DateTime.parse(_dropoffDateController.text),
-                        rentalRate: car.carPrice,
-                      );
-                      reservationService.addReservation(reservation);
-                      await authService.addCarToCurrentUser(car);
-                      carService.removeCar(car);
-                      Navigator.pop(context);
+
+                      await _authService.addReservationToUser(widget.currentUser, reservation);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Car added to your rentals!')),
+                        const SnackBar(content: Text('Reservation successful')),
                       );
+                      Navigator.pop(context);
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(e.toString())),
+                        SnackBar(content: Text('Failed to reserve: $e')),
                       );
                     }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please fill in all fields and ensure dates are valid')),
+                    );
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  textStyle: const TextStyle(fontSize: 18),
-                ),
-                child: const Text('RENT'),
+                child: const Text('Rent Now'),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    required String? Function(String?) validator,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(icon),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        validator: validator,
-      ),
-    );
-  }
-
-  Widget _buildDateField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    required String? Function(String?) validator,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(icon),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-        ),
-        validator: validator,
-        onTap: () async {
-          FocusScope.of(context).requestFocus(FocusNode());
-          DateTime? pickedDate = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2000),
-            lastDate: DateTime(2101),
-          );
-          if (pickedDate != null) {
-            controller.text = pickedDate.toIso8601String().split('T').first;
-          }
-        },
       ),
     );
   }
