@@ -5,6 +5,8 @@ import 'package:lead_your_way/renting/screens/profile_page.dart';
 import 'package:lead_your_way/renting/screens/reservationsHistory_page.dart';
 import 'package:lead_your_way/renting/screens/search_page.dart';
 import 'package:lead_your_way/routes/app_route.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
+
 import 'package:lead_your_way/shared/widgets/gottagofast_bottom_navigation.dart';
 import 'package:lead_your_way/shared/services/carsService.dart';
 
@@ -20,6 +22,7 @@ class _LywNavigatorState extends State<LywNavigator> {
   String selectedBrand = '';
   double selectedBudget = 0;
   final CarService carService = CarService();
+  final AuthService authService = AuthService();
 
   @override
   void initState() {
@@ -42,6 +45,7 @@ class _LywNavigatorState extends State<LywNavigator> {
             selectedBudget: selectedBudget,
             showAll: true,
             carService: carService,
+            authService: authService,
           );
           break;
         case AppRoute.reservations:
@@ -58,6 +62,7 @@ class _LywNavigatorState extends State<LywNavigator> {
         selectedBrand: selectedBrand,
         selectedBudget: selectedBudget,
         carService: carService,
+        authService: authService,
       );
     });
   }
@@ -70,6 +75,7 @@ class _LywNavigatorState extends State<LywNavigator> {
         selectedBudget: selectedBudget,
         showAll: false,
         carService: carService,
+        authService: authService,
       );
     });
   }

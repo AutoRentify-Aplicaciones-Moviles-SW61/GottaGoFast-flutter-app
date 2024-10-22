@@ -16,7 +16,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final MockAuthService _authService = MockAuthService();
+  final AuthService _authService = AuthService();
 
   @override
   void dispose() {

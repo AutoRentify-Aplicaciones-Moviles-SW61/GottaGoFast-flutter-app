@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/renting/screens/rent_page.dart';
 import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/shared/models/user.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
 
 class BicycleCard extends StatelessWidget {
   final Car car;
+  final AuthService authservice;
 
-  BicycleCard({required this.car});
+  BicycleCard({required this.car, required this.authservice});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,7 @@ class BicycleCard extends StatelessWidget {
                         Text('Model: ${car.carModel}',
                             style: const TextStyle(fontSize: 16)),
                         Text('Brand: ${car.brand}',
-                            style: const  TextStyle(fontSize: 16))
+                            style: const TextStyle(fontSize: 16))
                       ],
                     ),
                     const Spacer(), // Pushes "Rent" button to the right
@@ -64,7 +67,7 @@ class BicycleCard extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    RentPage(car: car)));
+                                    RentPage(car: car, authService: authservice)));
                       },
                       child: const Text("Rent"),
                     ),

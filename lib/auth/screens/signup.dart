@@ -16,7 +16,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmationController = TextEditingController();
-  final MockAuthService _authService = MockAuthService();
+  final AuthService _authService = AuthService();
 
   @override
   void dispose() {

@@ -2,7 +2,7 @@ import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/reservation.dart';
 
 class User {
-  String id;
+  int id; // Cambiado de String a int
   String email;
   String password;
   String? name;

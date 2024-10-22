@@ -1,38 +1,26 @@
 import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/reservation.dart';
-import 'package:lead_your_way/shared/models/reservation.dart';
 import 'package:lead_your_way/shared/models/user.dart';
 
-class MockAuthService {
-  static final MockAuthService _instance = MockAuthService._internal();
+class AuthService {
+  static final AuthService _instance = AuthService._internal();
   final List<User> _users = [];
   int _nextId = 2;
   User? _currentUser;
   static int _nextReservationId = 2;
 
-  factory MockAuthService() {
+  factory AuthService() {
     return _instance;
   }
 
-  MockAuthService._internal() {
+  AuthService._internal() {
     _users.add(User(
-      id: '1',
+      id: 1,
       email: 'cano@gmail.com',
       password: 'hola',
       name: 'Diego Cano',
       bio: 'Hello, I am Cano and I love partying all night.',
       profilePictureUrl: 'https://m.media-amazon.com/images/M/MV5BNTE1ODU3NTM1N15BMl5BanBnXkFtZTcwNTk0NDM4Nw@@._V1_.jpg',
-      reservations: [
-        Reservation(
-          id: '1',
-          vehicleId: 1,
-          pickupLocation: 'Location A',
-          dropoffLocation: 'Location B',
-          pickupDate: DateTime.now(),
-          dropoffDate: DateTime.now().add(Duration(days: 3)),
-          rentalRate: 100.0,
-        ),
-      ],
     ));
   }
 
@@ -40,10 +28,9 @@ class MockAuthService {
     await Future.delayed(const Duration(seconds: 1));
     final user = _users.firstWhere(
           (user) => user.email == email,
-      orElse: () => User(id: '', email: '', password: ''),
+      orElse: () => null as User, // Corrected to return a valid User or handle nullability
     );
-
-    if (user.id.isEmpty) {
+    if (user == null) {
       return 'Email not registered';
     } else if (user.password != password) {
       return 'Incorrect password';
@@ -60,9 +47,8 @@ class MockAuthService {
     if (_users.any((existingUser) => existingUser.email == email)) {
       return 'Email already exists';
     }
-
     User newUser = User(
-      id: _nextId.toString(),
+      id: _nextId,
       email: email,
       password: password,
     );
@@ -77,24 +63,20 @@ class MockAuthService {
     if (index != -1) {
       _users[index] = user;
     } else {
-      throw Exception('User not found');
+      throw Exception('User with id ${user.id} not found');
     }
   }
-  Future<void> addReservationToUser(User user, Reservation reservation) async {
-    if (user.reservations == null) {
-      user.reservations = [];
+
+  Future<void> addReservationToCurrentUser(Reservation reservation) async {
+    if (_currentUser == null) {
+      throw Exception('No current user logged in');
     }
-    reservation.id = _nextReservationId.toString(); // Use the static variable
-    _nextReservationId += 2; // Increment the static variable by 2
-    user.reservations!.add(reservation);
-    await updateUser(user);
+    if (_currentUser!.reservations == null) {
+      _currentUser!.reservations = [];
+    }
+    reservation.id = _nextReservationId;
+    _nextReservationId++;
+    _currentUser!.reservations!.add(reservation);
+    await updateUser(_currentUser!);
   }
-
-
-  List<Reservation> getUserReservations() {
-    return _currentUser?.reservations ?? [];
-  }
-
-
-
 }

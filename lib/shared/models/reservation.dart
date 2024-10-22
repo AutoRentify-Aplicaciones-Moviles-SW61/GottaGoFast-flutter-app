@@ -1,5 +1,5 @@
 class Reservation {
-   String id;
+  int id; // Cambiado de String a int
   final int vehicleId;
   final String pickupLocation;
   final String dropoffLocation;

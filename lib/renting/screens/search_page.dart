@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
+
 import '../../shared/services/carsService.dart';
 import '../widgets/car_card.dart';
 import 'rent_page.dart';
@@ -9,6 +11,7 @@ class SearchPage extends StatefulWidget {
   final double selectedBudget;
   final bool showAll;
   final CarService carService;
+  final AuthService authService;
 
   const SearchPage({
     super.key,
@@ -16,6 +19,7 @@ class SearchPage extends StatefulWidget {
     this.selectedBudget = 0,
     this.showAll = false,
     required this.carService,
+    required this.authService,
   });
 
   @override
@@ -24,6 +28,12 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String searchQuery = '';
+
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +83,12 @@ class _SearchPageState extends State<SearchPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RentPage(car: car),
+                            builder: (context) => RentPage(car: car, authService: widget.authService),
                           ),
                         );
                       },
                       child: CarCard(car: car),
-                    )
+                    ),
                 ],
               ),
             ),

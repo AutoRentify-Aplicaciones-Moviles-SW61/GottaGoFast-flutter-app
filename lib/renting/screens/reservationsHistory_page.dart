@@ -9,7 +9,7 @@ class ReservationHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authService = MockAuthService();
+    final authService = AuthService();
     final carService = CarService();
     final currentUser = authService.getCurrentUser();
     final reservations = currentUser?.reservations ?? [];

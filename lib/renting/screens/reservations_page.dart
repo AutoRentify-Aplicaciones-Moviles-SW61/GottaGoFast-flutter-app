@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/reservation.dart';
 import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/user.dart';
-import 'package:lead_your_way/shared/services/AuthService.dart';
+import 'package:lead_your_way/shared/services/authService.dart';
 
 class ReservationFormPage extends StatefulWidget {
   final Car car;
-  final User currentUser;
+  final AuthService authService; // Add authService
 
-  const ReservationFormPage({Key? key, required this.car, required this.currentUser}) : super(key: key);
+  const ReservationFormPage({
+    Key? key,
+    required this.car,
+    required this.authService, // Add authService
+  }) : super(key: key);
 
   @override
   _ReservationFormPageState createState() => _ReservationFormPageState();
@@ -20,7 +24,10 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
   final _dropoffLocationController = TextEditingController();
   DateTime? _pickupDate;
   DateTime? _dropoffDate;
-  final _authService = MockAuthService();
+
+  User? getCurrentUser() {
+    return widget.authService.getCurrentUser();
+  }
 
   Future<void> _selectDate(BuildContext context, bool isPickup) async {
     final DateTime? picked = await showDatePicker(
@@ -99,7 +106,7 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                       _dropoffDate != null &&
                       _pickupDate!.isBefore(_dropoffDate!)) {
                     final reservation = Reservation(
-                      id: '',
+                      id: 0,
                       vehicleId: widget.car.id,
                       pickupLocation: _pickupLocationController.text,
                       dropoffLocation: _dropoffLocationController.text,
@@ -109,8 +116,7 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                     );
 
                     try {
-
-                      await _authService.addReservationToUser(widget.currentUser, reservation);
+                      await widget.authService.addReservationToCurrentUser(reservation);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Reservation successful')),
                       );

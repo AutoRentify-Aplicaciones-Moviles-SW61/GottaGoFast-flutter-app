@@ -2,25 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:lead_your_way/renting/screens/comments_page.dart';
 import 'package:lead_your_way/renting/screens/reservations_page.dart';
 import 'package:lead_your_way/shared/models/car.dart';
+import 'package:lead_your_way/shared/models/user.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/carsService.dart';
+
 
 class RentPage extends StatelessWidget {
-  const RentPage({super.key, required this.car});
   final Car car;
+  final AuthService authService;
+
+  const RentPage({
+    super.key,
+    required this.car,
+    required this.authService,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final authService = MockAuthService();
-    final currentUser = authService.getCurrentUser();
-    final carService = CarService();
-    final image = Image.network(
-      car.imageData,
-      fit: BoxFit.fitWidth,
-      errorBuilder: (context, error, stackTrace) {
-        return const Icon(Icons.error, size: 100); // Error handling for image
-      },
-    );
 
     return Scaffold(
       body: NestedScrollView(
@@ -32,7 +29,13 @@ class RentPage extends StatelessWidget {
               pinned: true,
               backgroundColor: Colors.blueAccent,
               flexibleSpace: FlexibleSpaceBar(
-                background: image,
+                background: Image.network(
+                  car.imageData,
+                  fit: BoxFit.fitWidth,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.error, size: 100);
+                  },
+                ),
                 title: Text(
                   car.carModel,
                   style: const TextStyle(shadows: [
@@ -71,13 +74,13 @@ class RentPage extends StatelessWidget {
                     width: 200,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent, // Button color
+                        backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ReservationFormPage(car: car, currentUser: currentUser!),
+                            builder: (context) => ReservationFormPage(car: car, authService: authService),
                           ),
                         );
                       },
@@ -98,7 +101,7 @@ class RentPage extends StatelessWidget {
                     width: 200,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent, // Button color
+                        backgroundColor: Colors.blueAccent,
                       ),
                       onPressed: () {
                         Navigator.push(

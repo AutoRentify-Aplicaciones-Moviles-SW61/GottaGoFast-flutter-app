@@ -9,7 +9,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  final MockAuthService _authService = MockAuthService();
+  final AuthService _authService = AuthService();
   User? _currentUser;
 
   final TextEditingController _nameController = TextEditingController();

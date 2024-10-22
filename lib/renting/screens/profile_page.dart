@@ -13,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final MockAuthService _authService = MockAuthService();
+  final AuthService _authService = AuthService();
   final CarService _carService = CarService();
   User? _currentUser;
   List<Car> _reservedCars = [];
