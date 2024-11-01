@@ -4,28 +4,28 @@ import 'package:lead_your_way/shared/services/commentService.dart';
 
 class CommentsPage extends StatefulWidget {
   final int carId;
+  final CommentService commentService;
 
-  CommentsPage({required this.carId});
+  CommentsPage({required this.carId, required this.commentService});
 
   @override
   _CommentsPageState createState() => _CommentsPageState();
 }
 
 class _CommentsPageState extends State<CommentsPage> {
-  final CommentService _commentService = CommentService();
   final Set<int> _likedComments = {};
   final Set<int> _dislikedComments = {};
 
   @override
   void initState() {
     super.initState();
-    _commentService.fetchInitialComments();
+
   }
 
   void _likeComment(int commentId) {
     if (!_likedComments.contains(commentId) && !_dislikedComments.contains(commentId)) {
       setState(() {
-        _commentService.increaseLikes(commentId);
+        widget.commentService.increaseLikes(commentId);
         _likedComments.add(commentId);
       });
     }
@@ -34,7 +34,7 @@ class _CommentsPageState extends State<CommentsPage> {
   void _dislikeComment(int commentId) {
     if (!_likedComments.contains(commentId) && !_dislikedComments.contains(commentId)) {
       setState(() {
-        _commentService.decreaseLikes(commentId);
+        widget.commentService.decreaseLikes(commentId);
         _dislikedComments.add(commentId);
       });
     }
@@ -42,7 +42,7 @@ class _CommentsPageState extends State<CommentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final comments = _commentService.getComments().where((comment) => comment.carId == widget.carId).toList();
+    final comments = widget.commentService.getComments().where((comment) => comment.carId == widget.carId).toList();
 
     return Scaffold(
       appBar: AppBar(

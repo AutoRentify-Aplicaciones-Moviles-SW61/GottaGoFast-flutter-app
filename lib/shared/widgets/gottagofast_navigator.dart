@@ -6,6 +6,7 @@ import 'package:lead_your_way/renting/screens/reservationsHistory_page.dart';
 import 'package:lead_your_way/renting/screens/search_page.dart';
 import 'package:lead_your_way/routes/app_route.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
+import 'package:lead_your_way/shared/services/commentService.dart';
 
 import 'package:lead_your_way/shared/widgets/gottagofast_bottom_navigation.dart';
 import 'package:lead_your_way/shared/services/carsService.dart';
@@ -23,6 +24,7 @@ class _LywNavigatorState extends State<LywNavigator> {
   double selectedBudget = 0;
   final CarService carService = CarService();
   final AuthService authService = AuthService();
+  final CommentService commentService = CommentService();
 
   @override
   void initState() {
@@ -46,10 +48,11 @@ class _LywNavigatorState extends State<LywNavigator> {
             showAll: true,
             carService: carService,
             authService: authService,
+            commentService: commentService,
           );
           break;
         case AppRoute.reservations:
-          currentView =  const ReservationHistoryPage();
+          currentView = ReservationHistoryPage(carService: carService, commentService: commentService,);
           break;
       }
     });
@@ -63,6 +66,7 @@ class _LywNavigatorState extends State<LywNavigator> {
         selectedBudget: selectedBudget,
         carService: carService,
         authService: authService,
+        commentService: commentService,
       );
     });
   }
@@ -76,6 +80,7 @@ class _LywNavigatorState extends State<LywNavigator> {
         showAll: false,
         carService: carService,
         authService: authService,
+        commentService: commentService,
       );
     });
   }

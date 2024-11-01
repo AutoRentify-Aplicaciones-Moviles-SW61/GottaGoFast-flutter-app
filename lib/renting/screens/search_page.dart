@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
+import 'package:lead_your_way/shared/services/commentService.dart';
 
 import '../../shared/services/carsService.dart';
 import '../widgets/car_card.dart';
@@ -12,6 +13,7 @@ class SearchPage extends StatefulWidget {
   final bool showAll;
   final CarService carService;
   final AuthService authService;
+  final CommentService commentService;
 
   const SearchPage({
     super.key,
@@ -20,6 +22,7 @@ class SearchPage extends StatefulWidget {
     this.showAll = false,
     required this.carService,
     required this.authService,
+    required this.commentService,
   });
 
   @override
@@ -29,7 +32,6 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String searchQuery = '';
 
-
   @override
   void initState() {
     super.initState();
@@ -37,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Car> allCars = widget.carService.getAllCars();
+    List<Car> allCars = widget.carService.getAvailableCars();
     List<Car> filteredCars = widget.showAll
         ? allCars
         : allCars.where((car) {
@@ -83,7 +85,11 @@ class _SearchPageState extends State<SearchPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RentPage(car: car, authService: widget.authService),
+                            builder: (context) => RentPage(
+                              car: car,
+                              authService: widget.authService,
+                              commentService: widget.commentService,
+                            ),
                           ),
                         );
                       },

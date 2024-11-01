@@ -6,12 +6,12 @@ import 'package:lead_your_way/shared/services/authService.dart';
 
 class ReservationFormPage extends StatefulWidget {
   final Car car;
-  final AuthService authService; // Add authService
+  final AuthService authService;
 
   const ReservationFormPage({
     Key? key,
     required this.car,
-    required this.authService, // Add authService
+    required this.authService,
   }) : super(key: key);
 
   @override
@@ -117,6 +117,9 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
 
                     try {
                       await widget.authService.addReservationToCurrentUser(reservation);
+                      setState(() {
+                        widget.car.isAvailable = false;
+                      });
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Reservation successful')),
                       );

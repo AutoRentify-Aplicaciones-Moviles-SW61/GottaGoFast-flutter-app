@@ -41,6 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
           carDescription: 'Unknown',
           carModel: 'Unknown',
           imageData: 'https://via.placeholder.com/50',
+          isAvailable: false,
         ),
       ))
           .toList();

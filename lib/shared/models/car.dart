@@ -8,6 +8,7 @@ class Car {
   final String carDescription;
   final String carModel;
   final String imageData;
+   bool isAvailable;
 
   Car({
     required this.id,
@@ -19,29 +20,32 @@ class Car {
     required this.carDescription,
     required this.carModel,
     required this.imageData,
+    required this.isAvailable,
   });
 
   factory Car.fromJson(Map<String, dynamic> json) => Car(
-        id: json["id"],
-        passengers: json["passengers"],
-        luggageCapacity: json["luggageCapacity"],
-        carName: json["carName"],
-        brand: json["brand"],
-        carPrice: json["price"],
-        carDescription: json ["carDescription"],
-        carModel: json["model"],
-        imageData: json["imageData"],
-      );
+    id: json["id"],
+    passengers: json["passengers"],
+    luggageCapacity: json["luggageCapacity"],
+    carName: json["carName"],
+    brand: json["brand"],
+    carPrice: json["price"],
+    carDescription: json["carDescription"],
+    carModel: json["model"],
+    imageData: json["imageData"],
+    isAvailable: json["isAvailable"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "passengers": passengers,
-        "luggageCapacity": luggageCapacity,
-        "carName" : carName,
-        "brand": brand,
-        "price" : brand,
-        "carDescription" : carDescription,
-        "model": carModel,
-        "imageData": imageData,
-      };
+    "id": id,
+    "passengers": passengers,
+    "luggageCapacity": luggageCapacity,
+    "carName": carName,
+    "brand": brand,
+    "price": carPrice,
+    "carDescription": carDescription,
+    "model": carModel,
+    "imageData": imageData,
+    "isAvailable": isAvailable,
+  };
 }

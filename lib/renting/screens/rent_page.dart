@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:lead_your_way/renting/screens/comments_page.dart';
 import 'package:lead_your_way/renting/screens/reservations_page.dart';
 import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/models/user.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
-
+import 'package:lead_your_way/shared/services/commentService.dart';
 
 class RentPage extends StatelessWidget {
   final Car car;
   final AuthService authService;
+  final CommentService commentService;
 
   const RentPage({
     super.key,
     required this.car,
     required this.authService,
+    required this.commentService,
   });
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -107,7 +107,7 @@ class RentPage extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CommentsPage(carId: car.id),
+                            builder: (context) => CommentsPage(carId: car.id, commentService: commentService),
                           ),
                         );
                       },

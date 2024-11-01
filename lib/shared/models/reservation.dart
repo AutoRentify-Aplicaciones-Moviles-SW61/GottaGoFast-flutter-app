@@ -1,5 +1,5 @@
 class Reservation {
-  int id; // Cambiado de String a int
+  int id;
   final int vehicleId;
   final String pickupLocation;
   final String dropoffLocation;
@@ -9,6 +9,7 @@ class Reservation {
   late final double surcharge;
   late final double salesTax;
   late final double totalPrice;
+  String status;
 
   Reservation({
     required this.id,
@@ -18,6 +19,7 @@ class Reservation {
     required this.pickupDate,
     required this.dropoffDate,
     required this.rentalRate,
+    this.status = 'ACTIVE',
   }) {
     totalPrice = _calculateTotalPrice();
   }
@@ -42,6 +44,7 @@ class Reservation {
       'surcharge': surcharge,
       'salesTax': salesTax,
       'totalPrice': totalPrice,
+      'status': status,
     };
   }
 }
