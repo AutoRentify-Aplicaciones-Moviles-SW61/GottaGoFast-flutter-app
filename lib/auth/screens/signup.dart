@@ -17,6 +17,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmationController = TextEditingController();
   final AuthService _authService = AuthService();
+  bool isLandlord = false; // New field for the checkbox
 
   @override
   void dispose() {
@@ -67,6 +68,21 @@ class _SignUpState extends State<SignUp> {
               controller: passwordConfirmationController,
             ),
             const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Checkbox(
+                  value: isLandlord,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isLandlord = value ?? false;
+                    });
+                  },
+                ),
+                const Text("I want to be a landlord"),
+              ],
+            ),
+            const SizedBox(height: 16),
             FilledButton(
               onPressed: () async {
                 final email = emailController.text;
@@ -91,7 +107,7 @@ class _SignUpState extends State<SignUp> {
                   return;
                 }
 
-                final String result = await _authService.signup(email, password);
+                final String result = await _authService.signup(email, password, isLandlord);
                 if (result == 'User registered successfully') {
                   smoothNavigation(
                     context,

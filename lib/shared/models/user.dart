@@ -2,9 +2,10 @@ import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/reservation.dart';
 
 class User {
-  int id; // Cambiado de String a int
+  int id;
   String email;
   String password;
+  bool isLandlord; // New boolean field
   String? name;
   String? bio;
   String? profilePictureUrl;
@@ -14,6 +15,7 @@ class User {
     required this.id,
     required this.email,
     required this.password,
+    required this.isLandlord, // New required field
     this.name,
     this.bio,
     this.profilePictureUrl,
@@ -25,6 +27,7 @@ class User {
       'id': id,
       'email': email,
       'password': password,
+      'isLandlord': isLandlord, // Include in JSON
       'name': name,
       'bio': bio,
       'profilePictureUrl': profilePictureUrl,

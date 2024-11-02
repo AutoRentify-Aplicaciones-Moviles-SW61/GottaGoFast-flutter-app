@@ -1,4 +1,5 @@
-import 'package:lead_your_way/shared/models/car.dart';
+import 'dart:ffi';
+
 import 'package:lead_your_way/shared/models/reservation.dart';
 import 'package:lead_your_way/shared/models/user.dart';
 
@@ -18,6 +19,7 @@ class AuthService {
       id: 1,
       email: 'cano@gmail.com',
       password: 'hola',
+      isLandlord: false, // Default value
       name: 'Diego Cano',
       bio: 'Hello, I am Cano and I love partying all night.',
       profilePictureUrl: 'https://m.media-amazon.com/images/M/MV5BNTE1ODU3NTM1N15BMl5BanBnXkFtZTcwNTk0NDM4Nw@@._V1_.jpg',
@@ -28,7 +30,7 @@ class AuthService {
     await Future.delayed(const Duration(seconds: 1));
     final user = _users.firstWhere(
           (user) => user.email == email,
-      orElse: () => null as User, // Corrected to return a valid User or handle nullability
+      orElse: () => null as User,
     );
     if (user == null) {
       return 'Email not registered';
@@ -43,7 +45,7 @@ class AuthService {
     return _currentUser;
   }
 
-  Future<String> signup(String email, String password) async {
+  Future<String> signup(String email, String password, bool isLandlord) async {
     if (_users.any((existingUser) => existingUser.email == email)) {
       return 'Email already exists';
     }
@@ -51,6 +53,7 @@ class AuthService {
       id: _nextId,
       email: email,
       password: password,
+      isLandlord: isLandlord, // Assign the new field
     );
     _users.add(newUser);
     _nextId++;
