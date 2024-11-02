@@ -3,6 +3,7 @@ import 'package:lead_your_way/shared/models/reservation.dart';
 import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/user.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
+import 'package:lead_your_way/renting/screens/payment_page.dart';
 
 class ReservationFormPage extends StatefulWidget {
   final Car car;
@@ -100,7 +101,7 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
+                onPressed: () {
                   if (_formKey.currentState!.validate() &&
                       _pickupDate != null &&
                       _dropoffDate != null &&
@@ -115,20 +116,16 @@ class _ReservationFormPageState extends State<ReservationFormPage> {
                       rentalRate: widget.car.carPrice,
                     );
 
-                    try {
-                      await widget.authService.addReservationToCurrentUser(reservation);
-                      setState(() {
-                        widget.car.isAvailable = false;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Reservation successful')),
-                      );
-                      Navigator.pop(context);
-                    } catch (e) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Failed to reserve: $e')),
-                      );
-                    }
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PaymentPage(
+                          reservation: reservation,
+                          car: widget.car,
+                          authService: widget.authService,
+                        ),
+                      ),
+                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Please fill in all fields and ensure dates are valid')),

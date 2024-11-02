@@ -35,6 +35,7 @@ class ReservationDetailPage extends StatelessWidget {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Reservation finalized')),
     );
+    Navigator.pop(context);
   }
 
   @override

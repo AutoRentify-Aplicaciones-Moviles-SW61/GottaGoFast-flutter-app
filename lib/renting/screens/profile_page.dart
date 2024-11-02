@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lead_your_way/renting/screens/paymentmethods_page.dart';
 import 'package:lead_your_way/shared/models/car.dart';
 import 'package:lead_your_way/shared/models/user.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
@@ -24,7 +25,12 @@ class _ProfilePageState extends State<ProfilePage> {
     _currentUser = _authService.getCurrentUser();
     _loadReservedCars();
   }
-
+  void _navigateToPaymentMethods() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PaymentMethodsPage(authService: _authService)),
+    );
+  }
   void _loadReservedCars() {
     if (_currentUser?.reservations != null) {
       final cars = _carService.getAllCars();
@@ -97,6 +103,22 @@ class _ProfilePageState extends State<ProfilePage> {
         Text(
           _currentUser?.bio ?? '',
         ),
+        const SizedBox(height: 16),
+        Center(
+          child: ElevatedButton(
+            onPressed: _navigateToPaymentMethods,
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+              textStyle: const TextStyle(fontSize: 16, color: Colors.black),
+              backgroundColor: Colors.white,
+              side: const BorderSide(color: Colors.black),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const Text('Payment Methods', style: TextStyle(color: Colors.black)),
+          ),
+        ),
       ],
     ),
   );
@@ -107,7 +129,7 @@ class _ProfilePageState extends State<ProfilePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Reserved cars",
+          "Reservation History",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 24),
