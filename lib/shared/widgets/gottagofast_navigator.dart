@@ -7,9 +7,9 @@ import 'package:lead_your_way/renting/screens/search_page.dart';
 import 'package:lead_your_way/routes/app_route.dart';
 import 'package:lead_your_way/shared/services/authService.dart';
 import 'package:lead_your_way/shared/services/commentService.dart';
-
 import 'package:lead_your_way/shared/widgets/gottagofast_bottom_navigation.dart';
 import 'package:lead_your_way/shared/services/carsService.dart';
+import 'package:lead_your_way/renting/screens/add_car_page.dart';
 
 class LywNavigator extends StatefulWidget {
   const LywNavigator({super.key});
@@ -25,35 +25,70 @@ class _LywNavigatorState extends State<LywNavigator> {
   final CarService carService = CarService();
   final AuthService authService = AuthService();
   final CommentService commentService = CommentService();
+  bool isLandlord = false;
 
   @override
   void initState() {
     super.initState();
-    currentView = HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
+    final currentUser = authService.getCurrentUser();
+    if (currentUser != null) {
+      isLandlord = currentUser.isLandlord;
+      print("User is logged in: ${currentUser.email}");
+    } else {
+      print("No user is logged in");
+    }
+    currentView = isLandlord ? const ProfilePage() : HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
   }
 
   void _onTabTapped(AppRoute route) {
     setState(() {
-      switch(route) {
-        case AppRoute.home:
-          currentView = HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
-          break;
-        case AppRoute.profile:
-          currentView = const ProfilePage();
-          break;
-        case AppRoute.search:
-          currentView = SearchPage(
-            selectedBrand: selectedBrand,
-            selectedBudget: selectedBudget,
-            showAll: true,
-            carService: carService,
-            authService: authService,
-            commentService: commentService,
-          );
-          break;
-        case AppRoute.reservations:
-          currentView = ReservationHistoryPage(carService: carService, commentService: commentService,);
-          break;
+      if (isLandlord) {
+        switch (route) {
+          case AppRoute.profile:
+            currentView = const ProfilePage();
+            break;
+          case AppRoute.search:
+            currentView = SearchPage(
+              selectedBrand: selectedBrand,
+              selectedBudget: selectedBudget,
+              showAll: true,
+              carService: carService,
+              authService: authService,
+              commentService: commentService,
+            );
+            break;
+          case AppRoute.addCar:
+            currentView = AddCarPage(authService: authService, carService: carService);
+            break;
+          default:
+            currentView = const ProfilePage();
+            break;
+        }
+      } else {
+        switch (route) {
+          case AppRoute.home:
+            currentView = HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
+            break;
+          case AppRoute.search:
+            currentView = SearchPage(
+              selectedBrand: selectedBrand,
+              selectedBudget: selectedBudget,
+              showAll: true,
+              carService: carService,
+              authService: authService,
+              commentService: commentService,
+            );
+            break;
+          case AppRoute.reservations:
+            currentView = ReservationHistoryPage(carService: carService, commentService: commentService);
+            break;
+          case AppRoute.profile:
+            currentView = const ProfilePage();
+            break;
+          default:
+            currentView = HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
+            break;
+        }
       }
     });
   }
@@ -61,38 +96,18 @@ class _LywNavigatorState extends State<LywNavigator> {
   void _onBrandSelected(String brand) {
     setState(() {
       selectedBrand = brand;
-      currentView = SearchPage(
-        selectedBrand: selectedBrand,
-        selectedBudget: selectedBudget,
-        carService: carService,
-        authService: authService,
-        commentService: commentService,
-      );
     });
   }
 
   void _onBudgetSelected(double budget) {
     setState(() {
       selectedBudget = budget;
-      currentView = SearchPage(
-        selectedBrand: '',
-        selectedBudget: selectedBudget,
-        showAll: false,
-        carService: carService,
-        authService: authService,
-        commentService: commentService,
-      );
     });
   }
 
   void _onBackButtonPressed() {
     setState(() {
-      selectedBrand = '';
-      selectedBudget = 0;
-      currentView = HomePage(
-        onBrandSelected: _onBrandSelected,
-        onBudgetSelected: _onBudgetSelected,
-      );
+      currentView = isLandlord ? const ProfilePage() : HomePage(onBrandSelected: _onBrandSelected, onBudgetSelected: _onBudgetSelected);
     });
   }
 
@@ -105,7 +120,10 @@ class _LywNavigatorState extends State<LywNavigator> {
       },
       child: Scaffold(
         body: Center(child: currentView),
-        bottomNavigationBar: LywBottomNavigation(onNavigationChange: _onTabTapped),
+        bottomNavigationBar: LywBottomNavigation(
+          onNavigationChange: _onTabTapped,
+          isLandlord: isLandlord,
+        ),
       ),
     );
   }

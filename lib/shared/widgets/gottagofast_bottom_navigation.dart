@@ -4,13 +4,16 @@ import 'package:lead_your_way/routes/app_route.dart';
 
 class LywBottomNavigation extends StatelessWidget {
   final void Function(AppRoute) onNavigationChange;
+  final bool isLandlord;
 
-  const LywBottomNavigation(
-    { Key? key, required this.onNavigationChange }
-  ) : super(key: key);
+  const LywBottomNavigation({
+    Key? key,
+    required this.onNavigationChange,
+    required this.isLandlord,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Container(
       color: Colors.blueAccent,
       child: Padding(
@@ -25,33 +28,70 @@ class LywBottomNavigation extends StatelessWidget {
           onTabChange: (int index) {
             AppRoute destination = AppRoute.home;
 
-            switch(index) {
-              case 0: destination = AppRoute.home;
-              case 1: destination = AppRoute.search;
-              case 2: destination = AppRoute.reservations;
-              case 3: destination = AppRoute.profile;
+            if (isLandlord) {
+              switch (index) {
+                case 0:
+                  destination = AppRoute.profile;
+                  break;
+                case 1:
+                  destination = AppRoute.search;
+                  break;
+                case 2:
+                  destination = AppRoute.addCar;
+                  break;
+              }
+            } else {
+              switch (index) {
+                case 0:
+                  destination = AppRoute.home;
+                  break;
+                case 1:
+                  destination = AppRoute.search;
+                  break;
+                case 2:
+                  destination = AppRoute.reservations;
+                  break;
+                case 3:
+                  destination = AppRoute.profile;
+                  break;
+              }
             }
 
             onNavigationChange(destination);
           },
-          tabs: const [
-            GButton(
+          tabs: isLandlord
+              ? [
+            const GButton(
+              icon: Icons.person,
+              text: "Profile",
+            ),
+            const GButton(
+              icon: Icons.search,
+              text: "Search",
+            ),
+            const GButton(
+              icon: Icons.add,
+              text: "Add Car",
+            ),
+          ]
+              : [
+            const GButton(
               icon: Icons.home,
               text: "Home",
             ),
-            GButton(
+            const GButton(
               icon: Icons.search,
-              text: "Search"
+              text: "Search",
             ),
-            GButton(
+            const GButton(
               icon: Icons.favorite,
-              text: "Reservations"
+              text: "Reservations",
             ),
-            GButton(
+            const GButton(
               icon: Icons.person,
-              text: "Profile"
+              text: "Profile",
             ),
-          ]
+          ],
         ),
       ),
     );

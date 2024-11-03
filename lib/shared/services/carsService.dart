@@ -1,6 +1,7 @@
 import 'package:lead_your_way/shared/models/car.dart';
 
 class CarService {
+  static final CarService _instance = CarService._internal();
   List<Car> _cars = [
     // Carros originales
     Car(
@@ -246,6 +247,12 @@ class CarService {
     ),
   ];
 
+  factory CarService() {
+    return _instance;
+  }
+
+  CarService._internal();
+
   List<Car> getAllCars() {
     return _cars;
   }
@@ -258,8 +265,17 @@ class CarService {
     _cars.add(car);
   }
 
-  void removeCar(Car car) {
-    _cars.removeWhere((c) => c.id == car.id);
+  void removeCar(int id) {
+    _cars.removeWhere((car) => car.id == id);
+  }
+
+  void updateCar(Car updatedCar) {
+    final index = _cars.indexWhere((car) => car.id == updatedCar.id);
+    if (index != -1) {
+      _cars[index] = updatedCar;
+    } else {
+      throw Exception('Car with id ${updatedCar.id} not found');
+    }
   }
 
   void updateCarAvailability(int carId, bool isAvailable) {
@@ -280,5 +296,4 @@ class CarService {
     );
     car.isAvailable = isAvailable;
   }
-
 }
