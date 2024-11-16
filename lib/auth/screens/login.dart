@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/auth/screens/signup.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/Smooth_Navigation.dart';
-import 'package:lead_your_way/shared/services/notifier.dart';
-import 'package:lead_your_way/shared/widgets/gottagofast_navigator.dart';
-import 'package:lead_your_way/shared/widgets/gottagofast.dart';
+import 'package:app_tentify_frfr/auth/screens/signup.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/services/Smooth_Navigation.dart';
+import 'package:app_tentify_frfr/shared/services/notifier.dart';
+import 'package:app_tentify_frfr/shared/widgets/gottagofast_navigator.dart';
+import 'package:app_tentify_frfr/shared/widgets/gottagofast.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

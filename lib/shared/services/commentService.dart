@@ -1,4 +1,4 @@
-import 'package:lead_your_way/shared/models/comment.dart';
+import 'package:app_tentify_frfr/shared/models/comment.dart';
 
 class CommentService {
   static final CommentService _instance = CommentService._internal();

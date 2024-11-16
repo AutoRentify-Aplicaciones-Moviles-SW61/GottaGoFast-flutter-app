@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/shared/models/user.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/models/user.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
 
 class EditProfilePage extends StatefulWidget {
   @override

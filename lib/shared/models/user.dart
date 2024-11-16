@@ -1,5 +1,5 @@
-import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/models/reservation.dart';
+import 'package:app_tentify_frfr/shared/models/car.dart';
+import 'package:app_tentify_frfr/shared/models/reservation.dart';
 
 class User {
   int id;

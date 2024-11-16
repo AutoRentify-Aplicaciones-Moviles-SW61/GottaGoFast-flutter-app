@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/renting/screens/editProfile_page.dart';
+import 'package:app_tentify_frfr/renting/screens/editProfile_page.dart';
 
 
 class ProfilePicture extends StatelessWidget {

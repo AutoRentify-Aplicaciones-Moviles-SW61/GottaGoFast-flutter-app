@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/renting/screens/paymentmethods_page.dart';
-import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/models/user.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/carsService.dart';
-import 'package:lead_your_way/renting/widgets/profile_picture.dart';
+import 'package:app_tentify_frfr/renting/screens/paymentmethods_page.dart';
+import 'package:app_tentify_frfr/shared/models/car.dart';
+import 'package:app_tentify_frfr/shared/models/user.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/services/carsService.dart';
+import 'package:app_tentify_frfr/renting/widgets/profile_picture.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

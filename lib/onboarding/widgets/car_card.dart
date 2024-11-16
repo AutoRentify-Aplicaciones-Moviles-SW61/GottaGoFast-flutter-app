@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/renting/screens/rent_page.dart';
-import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/commentService.dart';
+import 'package:app_tentify_frfr/renting/screens/rent_page.dart';
+import 'package:app_tentify_frfr/shared/models/car.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/services/commentService.dart';
 
 class BicycleCard extends StatelessWidget {
   final Car car;

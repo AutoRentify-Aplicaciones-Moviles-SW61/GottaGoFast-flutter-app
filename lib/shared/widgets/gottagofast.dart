@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/shared/widgets/gottagofast_container.dart';
+import 'package:app_tentify_frfr/shared/widgets/gottagofast_container.dart';
 
 const Color inputColor = Colors.black;
 

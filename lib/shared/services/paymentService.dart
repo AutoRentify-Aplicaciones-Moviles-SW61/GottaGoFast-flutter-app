@@ -1,5 +1,5 @@
 
-import 'package:lead_your_way/shared/models/paymentmethod.dart';
+import 'package:app_tentify_frfr/shared/models/paymentmethod.dart';
 
 class PaymentMethodService {
   static final PaymentMethodService _instance = PaymentMethodService._internal();

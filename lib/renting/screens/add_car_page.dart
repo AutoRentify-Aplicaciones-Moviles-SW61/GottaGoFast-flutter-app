@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/auth/screens/login.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/carsService.dart';
-import 'package:lead_your_way/shared/models/car.dart';
-import 'package:lead_your_way/shared/widgets/gottagofast_navigator.dart';
+import 'package:app_tentify_frfr/auth/screens/login.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/services/carsService.dart';
+import 'package:app_tentify_frfr/shared/models/car.dart';
+import 'package:app_tentify_frfr/shared/widgets/gottagofast_navigator.dart';
 
 class AddCarPage extends StatefulWidget {
   final AuthService authService;

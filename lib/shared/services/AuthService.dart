@@ -1,7 +1,7 @@
 import 'dart:ffi';
 
-import 'package:lead_your_way/shared/models/reservation.dart';
-import 'package:lead_your_way/shared/models/user.dart';
+import 'package:app_tentify_frfr/shared/models/reservation.dart';
+import 'package:app_tentify_frfr/shared/models/user.dart';
 
 class AuthService {
   static final AuthService _instance = AuthService._internal();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/shared/models/paymentmethod.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
-import 'package:lead_your_way/shared/services/paymentService.dart';
+import 'package:app_tentify_frfr/shared/models/paymentmethod.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/services/paymentService.dart';
 
 class NewPaymentMethodPage extends StatefulWidget {
   final AuthService authService;

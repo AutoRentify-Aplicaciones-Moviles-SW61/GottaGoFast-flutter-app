@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/renting/screens/search_page.dart';
-import 'package:lead_your_way/shared/models/car.dart';
+import 'package:app_tentify_frfr/renting/screens/search_page.dart';
+import 'package:app_tentify_frfr/shared/models/car.dart';
 import '../widgets/car_card.dart';
 
 class HomePage extends StatefulWidget {

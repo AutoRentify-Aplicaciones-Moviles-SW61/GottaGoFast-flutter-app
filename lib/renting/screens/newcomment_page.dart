@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/shared/models/comment.dart';
-import 'package:lead_your_way/shared/services/commentService.dart';
-import 'package:lead_your_way/shared/services/authService.dart';
+import 'package:app_tentify_frfr/shared/models/comment.dart';
+import 'package:app_tentify_frfr/shared/services/commentService.dart';
+import 'package:app_tentify_frfr/shared/services/authService.dart';
 
 class NewcommentPage extends StatefulWidget {
   final int carId;

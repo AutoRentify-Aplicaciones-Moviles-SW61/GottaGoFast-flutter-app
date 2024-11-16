@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/auth/screens/login.dart';
-import 'package:lead_your_way/onboarding/widgets/welcome_page.dart';
-import 'package:lead_your_way/onboarding/widgets/findcars_card.dart';
-import 'package:lead_your_way/onboarding/widgets/starRent_card.dart';
+import 'package:app_tentify_frfr/auth/screens/login.dart';
+import 'package:app_tentify_frfr/onboarding/widgets/welcome_page.dart';
+import 'package:app_tentify_frfr/onboarding/widgets/findcars_card.dart';
+import 'package:app_tentify_frfr/onboarding/widgets/starRent_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {

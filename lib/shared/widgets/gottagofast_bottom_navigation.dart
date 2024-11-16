@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:lead_your_way/routes/app_route.dart';
+import 'package:app_tentify_frfr/routes/app_route.dart';
 
 class LywBottomNavigation extends StatelessWidget {
   final void Function(AppRoute) onNavigationChange;

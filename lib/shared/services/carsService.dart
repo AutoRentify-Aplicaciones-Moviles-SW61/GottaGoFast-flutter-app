@@ -1,4 +1,4 @@
-import 'package:lead_your_way/shared/models/car.dart';
+import 'package:app_tentify_frfr/shared/models/car.dart';
 
 class CarService {
   static final CarService _instance = CarService._internal();

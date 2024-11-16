@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lead_your_way/onboarding/screens/onboarding_screen.dart';
+import 'package:app_tentify_frfr/onboarding/screens/onboarding_screen.dart';
 
 void main() {
   runApp(const MainApp());
