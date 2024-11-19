@@ -21,6 +21,8 @@ class AuthService {
       password: 'hola',
       isLandlord: false, // Default value
       name: 'Diego Cano',
+      lastName: 'Cano', // Added lastName
+      cellphone: '1234567890', // Added cellphone
       bio: 'Hello, I am Cano and I love partying all night.',
       profilePictureUrl: 'https://m.media-amazon.com/images/M/MV5BNTE1ODU3NTM1N15BMl5BanBnXkFtZTcwNTk0NDM4Nw@@._V1_.jpg',
     ));
@@ -45,20 +47,24 @@ class AuthService {
     return _currentUser;
   }
 
-  Future<String> signup(String email, String password, bool isLandlord) async {
-    if (_users.any((existingUser) => existingUser.email == email)) {
+  Future<String> signup(String nombre, String apellido, String cellphone, String correo, String contrasena, bool isLandlord) async {
+    if (_users.any((existingUser) => existingUser.email == correo)) {
       return 'Email already exists';
     }
     User newUser = User(
       id: _nextId,
-      email: email,
-      password: password,
-      isLandlord: isLandlord, // Assign the new field
+      email: correo,
+      password: contrasena,
+      isLandlord: isLandlord,
+      name: nombre,
+      lastName: apellido,
+      cellphone: cellphone,
     );
     _users.add(newUser);
     _nextId++;
     return 'User registered successfully';
   }
+
 
   Future<void> updateUser(User user) async {
     await Future.delayed(const Duration(seconds: 1));

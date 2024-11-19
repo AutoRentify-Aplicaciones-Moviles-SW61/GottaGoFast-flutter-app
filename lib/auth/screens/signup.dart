@@ -13,14 +13,20 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController cellphoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordConfirmationController = TextEditingController();
   final AuthService _authService = AuthService();
-  bool isLandlord = false; // New field for the checkbox
+  bool isLandlord = false;
 
   @override
   void dispose() {
+    nameController.dispose();
+    lastNameController.dispose();
+    cellphoneController.dispose();
     emailController.dispose();
     passwordController.dispose();
     passwordConfirmationController.dispose();
@@ -46,20 +52,47 @@ class _SignUpState extends State<SignUp> {
               style: TextStyle(fontSize: 24),
             ),
             const SizedBox(height: 32),
+            // Campo para el nombre
+            RoundedInputField(
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              hintText: "Your Name",
+              icon: const Icon(Icons.person),
+              controller: nameController,
+            ),
+            // Campo para el apellido
+            RoundedInputField(
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              hintText: "Your Last Name",
+              icon: const Icon(Icons.person),
+              controller: lastNameController,
+            ),
+            // Campo para el número de teléfono
+            RoundedInputField(
+              keyboardType: TextInputType.phone,
+              textInputAction: TextInputAction.next,
+              hintText: "Your Cellphone",
+              icon: const Icon(Icons.phone),
+              controller: cellphoneController,
+            ),
+            // Campo para el correo electrónico
             RoundedInputField(
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              hintText: "Your email",
-              icon: const Icon(Icons.person),
+              hintText: "Your Email",
+              icon: const Icon(Icons.email),
               controller: emailController,
             ),
+            // Campo para la contraseña
             RoundedInputFieldObscure(
               keyboardType: TextInputType.visiblePassword,
               textInputAction: TextInputAction.next,
-              hintText: "Your password",
+              hintText: "Your Password",
               icon: const Icon(Icons.lock),
               controller: passwordController,
             ),
+            // Campo para confirmar la contraseña
             RoundedInputFieldObscure(
               keyboardType: TextInputType.visiblePassword,
               textInputAction: TextInputAction.done,
@@ -85,14 +118,20 @@ class _SignUpState extends State<SignUp> {
             const SizedBox(height: 16),
             FilledButton(
               onPressed: () async {
+                final name = nameController.text;
+                final lastName = lastNameController.text;
+                final cellphone = cellphoneController.text;
                 final email = emailController.text;
                 final password = passwordController.text;
                 final passwordConfirmation = passwordConfirmationController.text;
+
                 final bool emailValid = RegExp(
-                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
                     .hasMatch(email);
 
-                if (email.isEmpty || password.isEmpty || passwordConfirmation.isEmpty) {
+                // Validación de campos
+                if (name.isEmpty || lastName.isEmpty || cellphone.isEmpty ||
+                    email.isEmpty || password.isEmpty || passwordConfirmation.isEmpty) {
                   sendAlertMessage("Please fill all fields");
                   return;
                 }
@@ -107,7 +146,16 @@ class _SignUpState extends State<SignUp> {
                   return;
                 }
 
-                final String result = await _authService.signup(email, password, isLandlord);
+                // Llamada al servicio de registro
+                final String result = await _authService.signup(
+                  name,
+                  lastName,
+                  cellphone,
+                  email,
+                  password,
+                  isLandlord,
+                );
+
                 if (result == 'User registered successfully') {
                   smoothNavigation(
                     context,
@@ -133,14 +181,14 @@ class _SignUpState extends State<SignUp> {
               child: const Text("Sign Up"),
             ),
             const SizedBox(height: 32),
-            LoginLink(),
+            loginLink(),
           ],
         ),
       ),
     );
   }
 
-  Row LoginLink() {
+  Row loginLink() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -162,7 +210,6 @@ class _SignUpState extends State<SignUp> {
             "Login",
             style: TextStyle(
               color: Colors.blueAccent,
-              backgroundColor: Color.fromARGB(0, 138, 132, 132),
             ),
           ),
         ),
@@ -170,3 +217,4 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
+
