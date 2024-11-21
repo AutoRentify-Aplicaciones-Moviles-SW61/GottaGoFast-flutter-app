@@ -15,6 +15,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _cellphoneController = TextEditingController();
   final TextEditingController _currentPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   final TextEditingController _profilePictureUrlController = TextEditingController();
@@ -30,6 +32,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _emailController.text = _currentUser!.email;
       _bioController.text = _currentUser!.bio ?? '';
       _profilePictureUrlController.text = _currentUser!.profilePictureUrl ?? '';
+      _lastnameController.text = _currentUser!.lastName ?? '';
+      _cellphoneController.text = _currentUser!.cellphone?.toString() ?? '';
     }
   }
 
@@ -53,6 +57,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
               const SizedBox(height: 16),
               buildTextField("Bio", _bioController),
               const SizedBox(height: 16),
+              buildTextField("Lastname", _lastnameController),
+              const SizedBox(height: 16),
+              buildTextField("Cellphone", _cellphoneController),
+              const SizedBox(height: 16),
               buildTextField("Profile Picture URL", _profilePictureUrlController),
               const SizedBox(height: 16),
               buildPasswordFields(),
@@ -65,6 +73,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       _currentUser!.email = _emailController.text;
                       _currentUser!.bio = _bioController.text;
                       _currentUser!.profilePictureUrl = _profilePictureUrlController.text;
+                      _currentUser!.lastName = _lastnameController.text;
+                      _currentUser!.cellphone = _currentUser!.cellphone = int.tryParse(_cellphoneController.text) ?? 0;;
                       if (_isChangingPassword) {
                         if (_isPasswordVerified && _newPasswordController.text.isNotEmpty) {
                           _currentUser!.password = _newPasswordController.text;
@@ -192,7 +202,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 }
               }
             },
-            child: Text(_isPasswordVerified ? "Change Password" : "Verify Password"),
+            child: const Text("Verify Password"),
           ),
         ],
       ],

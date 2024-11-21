@@ -10,7 +10,7 @@ class User {
   String lastName;
   String? bio;
   String? profilePictureUrl;
-  String cellphone;
+  int cellphone;
   List<Reservation> reservations;
 
   User({
