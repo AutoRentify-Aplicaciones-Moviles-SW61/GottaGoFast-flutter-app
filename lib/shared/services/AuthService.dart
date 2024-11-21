@@ -21,7 +21,7 @@ class AuthService {
   Future<String> login(String email, String password) async {
     // Paso 1: Hacer el login y obtener el token
     final response = await http.post(
-      Uri.parse('${AppConstants.baseUrl}/api/user/login'),
+      Uri.parse('${AppConstants.baseUrl}/api/User/Login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -37,7 +37,7 @@ class AuthService {
 
       // Paso 2: Obtener la lista de usuarios con el token
       final usersResponse = await http.get(
-        Uri.parse('${AppConstants.baseUrl}/api/user'),
+        Uri.parse('${AppConstants.baseUrl}/api/User'),
         headers: <String, String>{
           'Authorization': 'Bearer $_token',
         },
@@ -87,7 +87,7 @@ class AuthService {
 
   Future<String> signup(String name, String lastName, String cellphone, String email, String password) async {
     final response = await http.post(
-      Uri.parse('${AppConstants.baseUrl}/api/user/register'),
+      Uri.parse('${AppConstants.baseUrl}/api/User/Register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -109,7 +109,7 @@ class AuthService {
 
   Future<void> updateUser(User user) async {
     final response = await http.put(
-      Uri.parse('${AppConstants.baseUrl}/api/user/${user.id}'),
+      Uri.parse('${AppConstants.baseUrl}/api/User/${user.id}'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
         if (_token != null) 'Authorization': 'Bearer $_token',
