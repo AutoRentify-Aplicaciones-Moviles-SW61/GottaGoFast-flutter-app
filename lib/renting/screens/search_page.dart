@@ -48,7 +48,7 @@ class _SearchPageState extends State<SearchPage> {
     }).toList();
 
     if (searchQuery.isNotEmpty) {
-      filteredCars = filteredCars.where((car) => car.carName.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+      filteredCars = filteredCars.where((car) => car.brand.toLowerCase().contains(searchQuery.toLowerCase())).toList();
     }
 
     return WillPopScope(

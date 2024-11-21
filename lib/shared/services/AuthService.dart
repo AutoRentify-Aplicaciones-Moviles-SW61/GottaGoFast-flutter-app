@@ -19,7 +19,6 @@ class AuthService {
 
 
   Future<String> login(String email, String password) async {
-    // Paso 1: Hacer el login y obtener el token
     final response = await http.post(
       Uri.parse('${AppConstants.baseUrl}/api/user/login'),
       headers: <String, String>{
@@ -32,10 +31,8 @@ class AuthService {
     );
 
     if (response.statusCode == 200) {
-      // Guardar el token recibido
       _token = jsonDecode(response.body);
 
-      // Paso 2: Obtener la lista de usuarios con el token
       final usersResponse = await http.get(
         Uri.parse('${AppConstants.baseUrl}/api/user'),
         headers: <String, String>{
@@ -44,7 +41,6 @@ class AuthService {
       );
 
       if (usersResponse.statusCode == 200) {
-        // Parsear los usuarios y buscar el que tiene el mismo email
         final List<dynamic> usersList = jsonDecode(usersResponse.body);
         final currentUserData = usersList.firstWhere(
               (user) => user['Gmail'] == email,
@@ -52,7 +48,6 @@ class AuthService {
         );
 
         if (currentUserData != null) {
-          // Crear el objeto User actual
           _currentUser = User(
             id: currentUserData['Id'],
             email: currentUserData['Gmail'],

@@ -256,6 +256,9 @@ class CarService {
   List<Car> getAllCars() {
     return _cars;
   }
+  List<Car> getCarsByBrand(String brand) {
+    return _cars.where((car) => car.brand == brand).toList();
+  }
 
   List<Car> getAvailableCars() {
     return _cars.where((car) => car.isAvailable).toList();
