@@ -10,14 +10,6 @@ class PaymentMethodService {
   }
 
   PaymentMethodService._internal(){
-    _paymentMethods.add(PaymentMethod(
-      id: 1,
-      type: 'Credit Card',
-      cardNumber: '1234 5678 9012 3456',
-      expiryDate: '12/23',
-      cardHolderName: 'Diego Canin',
-      userId: 1,
-    ));
   }
 
   List<PaymentMethod> getAllPaymentMethods() {

@@ -227,7 +227,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AUTO RENTIFY'),
+        title: const Text('Gotta Go Fast'),
         backgroundColor: Colors.blueAccent,
         leading: Container(),
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
@@ -241,11 +241,11 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Selecciona la marca"),
+                Text("Select the brand"),
                 DropdownButton<String>(
                   value: selectedBrand.isEmpty ? null : selectedBrand,
                   //cuando selecciono All muestra todos
-                  hint: Text('Marca'),
+                  hint: Text('Brand'),
                   items: ['All','Toyota', 'BMW', 'Jeep', 'Ford', 'Porsche', 'Tesla', 'Mazda', 'Audi', 'Chevrolet', 'Lincoln']
                       .map((brand) {
                     return DropdownMenuItem<String>(
@@ -266,10 +266,10 @@ class _HomePageState extends State<HomePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Selecciona el presupuesto máximo"),
+                Text("Select the maximum budget"),
                 DropdownButton<double>(
                   value: selectedBudget == 0 ? null : selectedBudget,
-                  hint: Text('Presupuesto'),
+                  hint: Text('Budget'),
                   items: [0,50, 100, 200, 300, 400, 500]
                       .map((budget) {
                     return DropdownMenuItem<double>(
