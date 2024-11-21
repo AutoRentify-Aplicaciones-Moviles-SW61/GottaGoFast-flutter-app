@@ -18,6 +18,53 @@ class _NewPaymentMethodPageState extends State<NewPaymentMethodPage> {
   final _cardNumberController = TextEditingController();
   final _expiryDateController = TextEditingController();
   final _cardHolderNameController = TextEditingController();
+  String? _selectedType;
+
+  final List<String> _cardTypes = [
+    'Credit Card',
+    'Debit Card'
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _expiryDateController.addListener(_formatExpiryDate);
+  }
+
+  @override
+  void dispose() {
+    _expiryDateController.removeListener(_formatExpiryDate);
+    _expiryDateController.dispose();
+    _typeController.dispose();
+    _cardNumberController.dispose();
+    _cardHolderNameController.dispose();
+    super.dispose();
+  }
+
+  void _formatExpiryDate() {
+    String text = _expiryDateController.text;
+
+    // Remover caracteres no válidos
+    text = text.replaceAll(RegExp(r'[^0-9]'), '');
+
+    // Agregar '/' después de los primeros dos dígitos
+    if (text.length > 2) {
+      text = text.substring(0, 2) + '/' + text.substring(2);
+    }
+
+    // Limitar a 5 caracteres (MM/YY)
+    if (text.length > 5) {
+      text = text.substring(0, 5);
+    }
+
+    // Actualizar el controlador si el texto ha cambiado
+    if (text != _expiryDateController.text) {
+      _expiryDateController.value = _expiryDateController.value.copyWith(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    }
+  }
 
   void _addPaymentMethod() {
     if (_formKey.currentState!.validate()) {
@@ -25,7 +72,7 @@ class _NewPaymentMethodPageState extends State<NewPaymentMethodPage> {
       if (currentUser != null) {
         final newPaymentMethod = PaymentMethod(
           id: DateTime.now().millisecondsSinceEpoch,
-          type: _typeController.text,
+          type: _selectedType!,
           cardNumber: _cardNumberController.text,
           expiryDate: _expiryDateController.text,
           cardHolderName: _cardHolderNameController.text,
@@ -41,6 +88,7 @@ class _NewPaymentMethodPageState extends State<NewPaymentMethodPage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,16 +102,28 @@ class _NewPaymentMethodPageState extends State<NewPaymentMethodPage> {
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                controller: _typeController,
-                decoration: const InputDecoration(labelText: 'Type'),
+              DropdownButtonFormField(
+                value:_selectedType,
+                decoration: const InputDecoration(labelText: 'Card Type'),
+              items: _cardTypes.map((String value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? newvalue) {
+                setState(() {
+                  _selectedType = newvalue;
+                });
+              },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter the type';
+                    return 'Please select a card type';
                   }
                   return null;
                 },
               ),
+
               const SizedBox(height: 16),
               TextFormField(
                 controller: _cardNumberController,
@@ -78,10 +138,19 @@ class _NewPaymentMethodPageState extends State<NewPaymentMethodPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _expiryDateController,
-                decoration: const InputDecoration(labelText: 'Expiry Date'),
+                decoration: const InputDecoration(labelText: 'Expiry Date (MM/YY)'),
+                keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter the expiry date';
+                  }
+                  final RegExp regex = RegExp(r'^\d{2}/\d{2}$');
+                  if (!regex.hasMatch(value)) {
+                    return 'Enter a valid expiry date (MM/YY)';
+                  }
+                  final int month = int.tryParse(value.split('/')[0]) ?? 0;
+                  if (month < 1 || month > 12) {
+                    return 'Enter a valid month (01-12)';
                   }
                   return null;
                 },
