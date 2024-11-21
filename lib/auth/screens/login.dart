@@ -78,7 +78,7 @@ class _LoginState extends State<Login> {
                 }
 
                 final String result = await _authService.login(email, password);
-                if (result == 'Success') {
+                if (result == 'Login successful') {
                   smoothNavigation(
                     context,
                     const Login(),

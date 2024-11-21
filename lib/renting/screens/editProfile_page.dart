@@ -26,20 +26,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.initState();
     _currentUser = _authService.getCurrentUser();
     if (_currentUser != null) {
-      _nameController.text = _currentUser!.name ?? '';
+      _nameController.text = _currentUser!.name;
       _emailController.text = _currentUser!.email;
       _bioController.text = _currentUser!.bio ?? '';
       _profilePictureUrlController.text = _currentUser!.profilePictureUrl ?? '';
     }
   }
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    setState(() {
-      _currentUser = _authService.getCurrentUser(); // Update current user when dependencies change
 
-    });
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

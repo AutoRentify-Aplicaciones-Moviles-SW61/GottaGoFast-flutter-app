@@ -153,7 +153,6 @@ class _SignUpState extends State<SignUp> {
                   cellphone,
                   email,
                   password,
-                  isLandlord,
                 );
 
                 if (result == 'User registered successfully') {
