@@ -28,7 +28,7 @@ class _FindBikesState extends State<FindBikes> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 32
+                  fontSize: 28
                 ),
               ),
               SizedBox(width: 8,),
